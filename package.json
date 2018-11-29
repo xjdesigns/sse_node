@@ -1,0 +1,14 @@
+{
+  "name": "sse_node",
+  "version": "1.0.0",
+  "description": "Server side events node server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jason Jacobson",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
