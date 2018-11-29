@@ -1,5 +1,6 @@
 const express = require('express')
 const port = process.env.PORT || 3000
+const howLong = process.env.HOWLONG || 1000
 
 const app = express()
 
@@ -10,21 +11,27 @@ app.use(function(req, res, next) {
 });
 app.use(express.static('public'))
 
-app.get('/liveWeight', function(req, res) {
+app.get('/v1/liveweight', function(req, res) {
   res.writeHead(200, {
     'Content-Type': 'text/event-stream',
     'Cache-Control': 'no-cache',
     'Connection': 'keep-alive',
   })
-  getLiveWeight(res, 10)
+  getLiveWeight(res, howLong)
 })
 
-function getLiveWeight(res, count) {
-  res.write("data: " + count + "\n\n")
-  if (count)
-    setTimeout(() => getLiveWeight(res, count-1), 1000)
+function getLiveWeight(res, howLong) {
+  const randomWeight = makeRandomWeight()
+  res.write(`data: { \"weight\": \"${randomWeight}\"} \n\n`)
+  if (howLong)
+    setTimeout(() => getLiveWeight(res, howLong-1), 1000)
   else
     res.end()
+}
+
+function makeRandomWeight ()  {
+  const random = Math.random()
+  return random.toFixed(2)
 }
 
 app.listen(port, () => console.log(`SSE app listening on port ${port}!`))

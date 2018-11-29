@@ -1,6 +1,7 @@
-var evtSource = new EventSource('/liveWeight')
+var evtSource = new EventSource('/v1/liveweight')
 
 evtSource.onmessage = function (e) {
+  console.warn('e', e)
   document.getElementById('data').innerHTML = e.data
 }
 
